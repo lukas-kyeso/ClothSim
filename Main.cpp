@@ -84,7 +84,7 @@ SPRING * springArray3 = NULL;
 
 // number of balls along the length of the cloth. Cloth is always square so we only need 1 value
 int clothSize = 15;
-int cloth2Size = 10;
+int cloth2Size = 15;
 int cloth3Size = 18;
 
 float cloth1StartX = 0;
@@ -97,12 +97,12 @@ float dampen=.9;
 
 // mass of ball
 float mass = 0.01;
-float mass2 = 0.008;
+float mass2 = 0.01;
 float mass3 = 0.01;
 
 //spring constants - higher = more taut
-float springConstant = 30.0;
-float springConstant2 = 40.0;
+float springConstant = 15.0;
+float springConstant2 = 30.0;
 float springConstant3 = 10.0;
 
 float naturalLength = 1.0;
@@ -162,7 +162,7 @@ void ResetCloth1(){
 	for(int i = 0; i < clothSize-1; i++) balls1Array1[i].fixed = true;
 	balls1Array1[clothSize-1].fixed = true;
 	for(int i = 0; i < clothSize; i++) balls1Array1[i*clothSize + clothSize-1].fixed = true;
-	balls1Array1[(clothSize-1)*(clothSize-1)].fixed = true;
+	balls1Array1[(clothSize)*(clothSize-1)].fixed = true;
 
 	// copy balls into swap array
 	for(int i = 0; i<numBalls; i++){
@@ -274,13 +274,12 @@ void ResetCloth1(){
 
 }
 void ResetCloth2(){
-
 	// start balls of at evenly spaced intervals
 	for(int i = 0; i < cloth2Size; ++i){
 		for(int j = 0; j<cloth2Size; ++j){
-			balls2Array1[i*cloth2Size+j].position.Set(cloth2StartX + float(j)-float(cloth2Size-1)/2, 8.5, float(i)-float(cloth2Size-1)/2);
+			balls2Array1[i*cloth2Size+j].position.Set(cloth1StartX + float(j)-float(cloth2Size-1)/2, 8.5, float(i)-float(cloth2Size-1)/2);
 			balls2Array1[i*cloth2Size+j].velocity.LoadZero();
-			balls2Array1[i*cloth2Size+j].mass = mass2;
+			balls2Array1[i*cloth2Size+j].mass = mass;
 			balls2Array1[i*cloth2Size+j].fixed = false;
 		}
 	}
@@ -289,10 +288,10 @@ void ResetCloth2(){
 	for(int i = 0; i < cloth2Size-1; i++) balls2Array1[i].fixed = true;
 	balls2Array1[cloth2Size-1].fixed = true;
 	for(int i = 0; i < cloth2Size; i++) balls2Array1[i*cloth2Size + cloth2Size-1].fixed = true;
-	balls2Array1[cloth2Size*cloth2Size-1].fixed = true;
+	balls2Array1[(cloth2Size)*(cloth2Size-1)].fixed = true;
 
 	// copy balls into swap array
-	for(int i = 0; i<numBalls; i++){
+	for(int i = 0; i<numBalls2; i++){
 		balls2Array2[i] = balls2Array1[i];
 	}
 
@@ -381,6 +380,7 @@ void ResetCloth2(){
 
 			++currentSpring;
 		}
+
 	}
 
 	//The next (gridSize-2)*gridSize springs go from one ball to the next but one below,
@@ -398,7 +398,6 @@ void ResetCloth2(){
 			++currentSpring;
 		}
 	}
-
 }
 void ResetCloth3(){
 
@@ -416,7 +415,7 @@ void ResetCloth3(){
 	for(int i = 0; i < cloth3Size-1; i++) balls3Array1[i].fixed = true;
 	balls3Array1[cloth3Size-1].fixed = true;
 	for(int i = 0; i < cloth3Size; i++) balls3Array1[i*cloth3Size + cloth3Size-1].fixed = true;
-	balls3Array1[cloth3Size*cloth3Size-1].fixed = true;
+	balls3Array1[(cloth3Size)*(cloth3Size-1)].fixed = true;
 
 	// copy balls into swap array
 	for(int i = 0; i<numBalls3; i++){
@@ -573,9 +572,9 @@ void drawCloth1(){
 	glMaterialfv(GL_BACK, GL_DIFFUSE, COLOR(1.0f, 1.0f, 0.0f));
 	glBegin(GL_TRIANGLES);
 	{
-		for(int i=1; i<clothSize-1; ++i)
+		for(int i=0; i<clothSize-1; ++i)
 		{
-			for(int j=1; j<clothSize-1; ++j)
+			for(int j=0; j<clothSize-1; ++j)
 			{
 				glNormal3fv(currentBallsCloth1[i*clothSize+j].normal);
 				glTexCoord2f(((float)i/clothSize), (float)j/clothSize);
@@ -617,9 +616,9 @@ void drawCloth2(){
 	glMaterialfv(GL_BACK, GL_DIFFUSE, COLOR(1.0f, 1.0f, 0.0f));
 	glBegin(GL_TRIANGLES);
 	{
-		for(int i=1; i<cloth2Size-1; ++i)
+		for(int i=0; i<cloth2Size-1; ++i)
 		{
-			for(int j=1; j<cloth2Size-1; ++j)
+			for(int j=0; j<cloth2Size-1; ++j)
 			{
 				glNormal3fv(currentBallsCloth2[i*cloth2Size+j].normal);
 				glTexCoord2f(((float)i/cloth2Size), (float)j/cloth2Size);
@@ -661,9 +660,9 @@ void drawCloth3(){
 	glMaterialfv(GL_BACK, GL_DIFFUSE, COLOR(1.0f, 1.0f, 0.0f));
 	glBegin(GL_TRIANGLES);
 	{
-		for(int i=1; i<cloth3Size-1; ++i)
+		for(int i=0; i<cloth3Size-1; ++i)
 		{
-			for(int j=1; j<cloth3Size-1; ++j)
+			for(int j=0; j<cloth3Size-1; ++j)
 			{
 				glNormal3fv(currentBallsCloth3[i*cloth3Size+j].normal);
 				glTexCoord2f(((float)i/cloth3Size), (float)j/cloth3Size);
@@ -1162,14 +1161,14 @@ void Physics(void)
 	{
 
 		for(int i = 0; i < numBalls; ++i)
-		{
 			currentBallsCloth1[i].normal.LoadZero();
-		}
+		for(int i = 0; i < numBalls2; ++i)
+			currentBallsCloth2[i].normal.LoadZero();
+		for(int i = 0; i < numBalls3; ++i)
+			currentBallsCloth3[i].normal.LoadZero();
 
-		for(int i = 0; i < clothSize - 1; ++i)
-		{
-			for(int j = 0; j < clothSize-1; ++j)
-			{
+		for(int i = 0; i < clothSize - 1; ++i){
+			for(int j = 0; j < clothSize-1; ++j){
 				//TODO add force to triangles
 				VECTOR3D & p0=currentBallsCloth1[i*clothSize+j].position;
 				VECTOR3D & p1=currentBallsCloth1[i*clothSize+j+1].position;
@@ -1195,9 +1194,72 @@ void Physics(void)
 				n3+=normal;
 			}
 		}
+		for(int i = 0; i < cloth2Size - 1; ++i){
+			for(int j = 0; j < cloth2Size-1; ++j){
+				//TODO add force to triangles
+				VECTOR3D & p0=currentBallsCloth2[i*cloth2Size+j].position;
+				VECTOR3D & p1=currentBallsCloth2[i*cloth2Size+j+1].position;
+				VECTOR3D & p2=currentBallsCloth2[(i+1)*cloth2Size+j].position;
+				VECTOR3D & p3=currentBallsCloth2[(i+1)*cloth2Size+j+1].position;
+
+				VECTOR3D & n0=currentBallsCloth2[i*cloth2Size+j].normal;
+				VECTOR3D & n1=currentBallsCloth2[i*cloth2Size+j+1].normal;
+				VECTOR3D & n2=currentBallsCloth2[(i+1)*cloth2Size+j].normal;
+				VECTOR3D & n3=currentBallsCloth2[(i+1)*cloth2Size+j+1].normal;
+
+				//Calculate the normals for the 2 triangles and add on
+				VECTOR3D normal=(p1-p0).CrossProduct(p2-p0);
+
+				n0+=normal;
+				n1+=normal;
+				n2+=normal;
+
+				normal=(p1-p2).CrossProduct(p3-p2);
+
+				n1+=normal;
+				n2+=normal;
+				n3+=normal;
+			}
+		}
+		for(int i = 0; i < cloth3Size - 1; ++i){
+			for(int j = 0; j < cloth3Size-1; ++j){
+				//TODO add force to triangles
+				VECTOR3D & p0=currentBallsCloth3[i*cloth3Size+j].position;
+				VECTOR3D & p1=currentBallsCloth3[i*cloth3Size+j+1].position;
+				VECTOR3D & p2=currentBallsCloth3[(i+1)*cloth3Size+j].position;
+				VECTOR3D & p3=currentBallsCloth3[(i+1)*cloth3Size+j+1].position;
+
+				VECTOR3D & n0=currentBallsCloth3[i*cloth3Size+j].normal;
+				VECTOR3D & n1=currentBallsCloth3[i*cloth3Size+j+1].normal;
+				VECTOR3D & n2=currentBallsCloth3[(i+1)*cloth3Size+j].normal;
+				VECTOR3D & n3=currentBallsCloth3[(i+1)*cloth3Size+j+1].normal;
+
+				//Calculate the normals for the 2 triangles and add on
+				VECTOR3D normal=(p1-p0).CrossProduct(p2-p0);
+
+				n0+=normal;
+				n1+=normal;
+				n2+=normal;
+
+				normal=(p1-p2).CrossProduct(p3-p2);
+
+				n1+=normal;
+				n2+=normal;
+				n3+=normal;
+			}
+		}
+
+
+
 		//Normalize normals
 		for(int i=0; i<numBalls; ++i)
 			currentBallsCloth1[i].normal.Normalize();
+		//Normalize normals
+		for(int i=0; i<numBalls2; ++i)
+			currentBallsCloth2[i].normal.Normalize();
+		//Normalize normals
+		for(int i=0; i<numBalls3; ++i)
+			currentBallsCloth3[i].normal.Normalize();
 	}
 
 	bool useShadowStuff = false;
@@ -1249,14 +1311,14 @@ void keyboard(unsigned char key, int x, int y) {
 		for(int i = 0; i < clothSize-1; i++) currentBallsCloth1[i*clothSize + clothSize-1].fixed = false;
 		for(int i = 0; i < cloth2Size-1; i++) currentBallsCloth2[i*cloth2Size + cloth2Size-1].fixed = false;
 		for(int i = 0; i < cloth3Size-1; i++) currentBallsCloth3[i*cloth3Size + cloth3Size-1].fixed = false;
-//		currentBallsCloth1[clothSize-1].fixed=false;
-//		currentBallsCloth2[cloth2Size-1].fixed=false;
-//		currentBallsCloth3[cloth3Size-1].fixed=false;
+		//		currentBallsCloth1[clothSize-1].fixed=false;
+		//		currentBallsCloth2[cloth2Size-1].fixed=false;
+		//		currentBallsCloth3[cloth3Size-1].fixed=false;
 	}
 	if (key == '3'){
-		currentBallsCloth1[(clothSize-1)*(clothSize-1)].fixed=false;
-		currentBallsCloth2[(cloth2Size-1)*(cloth2Size-1)].fixed=false;
-		currentBallsCloth3[(cloth3Size-1)*(cloth3Size-1)].fixed=false;
+		currentBallsCloth1[(clothSize)*(clothSize-1)].fixed=false;
+		currentBallsCloth2[(cloth2Size)*(cloth2Size-1)].fixed=false;
+		currentBallsCloth3[(cloth3Size)*(cloth3Size-1)].fixed=false;
 	}
 	if (key == '4'){
 		currentBallsCloth1[clothSize*clothSize-1].fixed=false;
