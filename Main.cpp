@@ -102,7 +102,7 @@ float mass3 = 0.01;
 
 //spring constants - higher = more taut
 float springConstant = 15.0;
-float springConstant2 = 30.0;
+float springConstant2 = 10.0;
 float springConstant3 = 10.0;
 
 float naturalLength = 1.0;
@@ -277,7 +277,7 @@ void ResetCloth2(){
 	// start balls of at evenly spaced intervals
 	for(int i = 0; i < cloth2Size; ++i){
 		for(int j = 0; j<cloth2Size; ++j){
-			balls2Array1[i*cloth2Size+j].position.Set(cloth1StartX + float(j)-float(cloth2Size-1)/2, 8.5, float(i)-float(cloth2Size-1)/2);
+			balls2Array1[i*cloth2Size+j].position.Set(cloth2StartX + float(j)-float(cloth2Size-1)/2, 8.5, float(i)-float(cloth2Size-1)/2);
 			balls2Array1[i*cloth2Size+j].velocity.LoadZero();
 			balls2Array1[i*cloth2Size+j].mass = mass;
 			balls2Array1[i*cloth2Size+j].fixed = false;
@@ -757,7 +757,7 @@ void Render(double currentTime, double timePassed){
 	if(drawTriangles)
 	{
 		drawCloth1();
-		drawCloth2();
+		//drawCloth2();
 		drawCloth3();
 	}
 
@@ -790,6 +790,24 @@ void Render(double currentTime, double timePassed){
 				{
 					glVertex3fv(currentBallsCloth1[springArray[i].ball1].position);
 					glVertex3fv(currentBallsCloth1[springArray[i].ball2].position);
+				}
+			}
+			for(int i=0; i<numSprings2; ++i)
+			{
+				//Check the spring has been initialised and the ball numbers are in bounds
+				if(springArray2[i].ball1!=-1 && springArray2[i].ball2!=-1 && springArray2[i].ball1<numBalls2 && springArray2[i].ball2<numBalls2)
+				{
+					glVertex3fv(currentBallsCloth2[springArray2[i].ball1].position);
+					glVertex3fv(currentBallsCloth2[springArray2[i].ball2].position);
+				}
+			}
+			for(int i=0; i<numSprings3; ++i)
+			{
+				//Check the spring has been initialised and the ball numbers are in bounds
+				if(springArray3[i].ball1!=-1 && springArray3[i].ball2!=-1 && springArray3[i].ball1<numBalls3 && springArray3[i].ball2<numBalls3)
+				{
+					glVertex3fv(currentBallsCloth3[springArray3[i].ball1].position);
+					glVertex3fv(currentBallsCloth3[springArray3[i].ball2].position);
 				}
 			}
 		}
