@@ -1,19 +1,4 @@
-//////////////////////////////////////////////////////////////////////////////////////////
-//	COLOR.h
-//	Class declaration for an RGBA color
-//	Downloaded from: www.paulsprojects.net
-//	Created:	20th July 2002
-//	Modified:	7th November 2002	-	Some speed improvements
-//									-	Removed clamping after adds etc. Do it yourself!
-//										To enable use with floating point color buffers
-//									-	Corrected lerp (reversed f and 1-f)
-//				13th December 2002	-	Added default parameter to alpha of Set()
-//									-	Added red, green, blue constant COLORs
-//
-//	Copyright (c) 2006, Paul Baker
-//	Distributed under the New BSD Licence. (See accompanying file License.txt or copy at
-//	http://www.paulsprojects.net/NewBSDLicense.txt)
-//////////////////////////////////////////////////////////////////////////////////////////
+
 
 #ifndef COLOR_H
 #define COLOR_H
@@ -99,20 +84,7 @@ public:
 	COLOR operator/=(const COLOR & rhs)
 	{	(*this)=(*this)/rhs;	return (*this);	}
 
-	COLOR operator*=(const fl
-#ifndef COLOR_H
-#define COLOR_H
-
-class COLOR
-{
-public:
-	//constructors
-	COLOR()
-	{	r=g=b=a=0.0f;	}
-
-	COLOR(float newR, float newG, float newB, float newA=0.0f)
-	{	r=newR;	g=newG;	b=newB;	a=newA;	}
-oat rhs)
+	COLOR operator*=(const float rhs)
 	{	(*this)=(*this)*rhs;	return (*this);	}
 
 	COLOR operator/=(const float rhs)

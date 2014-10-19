@@ -694,7 +694,7 @@ void drawCloth3(){
 }
 
 void Render(double currentTime, double timePassed){
-	// MIGHT NEED TO POSTREDISPLAY
+
 	glutPostRedisplay();
 
 	SetCamera();
@@ -718,11 +718,10 @@ void Render(double currentTime, double timePassed){
 	glMaterialf(GL_FRONT, GL_SHININESS, 32.0f);
 	//glEnable(GL_CULL_FACE);
 
+	// DRAW SPHERE
 	glPushMatrix();
 	glColor3f(1.0f, 1.0f, 1.0f);
-	glTranslatef(spherePosition.x, 0, 0);
-	//    glTranslatef(2, 0, 0);
-	//gluSphere(sphere, sphereRadius * .94, 48, 24);
+	glTranslatef(spherePosition.x, spherePosition.y, 0);
 	glutSolidSphere(sphereRadius*0.94, 48, 24);
 	glPopMatrix();
 
@@ -924,7 +923,7 @@ void DrawScene(){
 			glPushMatrix();
 
 			glTranslatef(0.9f, 0.0f, 0.0f);
-			glutSolidSphere(spherePosition.x, 0, 0);
+			glutSolidSphere(spherePosition.x, spherePosition.y, 0);
 
 			glPopMatrix();
 		}
@@ -1028,7 +1027,7 @@ void calcSwapArray(int numBallz, BALL nextBallsCloth[], BALL currentBallsCloth[]
 			if(distanceBetweenBallAndSphere < sphereRadius  * sphereRadius )
 			{
 				nextBallsCloth[i].position = spherePosition + ((nextBallsCloth[i].position - spherePosition).GetNormalized() * sphereRadius );
-				nextBallsCloth[i].velocity *= dampen;
+				nextBallsCloth[i].velocity.LoadZero();
 			}
 
 			// check if in cube
@@ -1269,16 +1268,22 @@ void keyboard(unsigned char key, int x, int y) {
 		ResetCloth2();
 		ResetCloth3();
 	}
-	if (key == 'j'){
+	if (key == 'a'){
 		spherePosition.x -= .15;
 	}
-	if (key == 'k'){
+	if (key == 'd'){
 		spherePosition.x += .15;
 	}
+	if (key == 'w'){
+		spherePosition.y += .15;
+	}
 	if (key == 's'){
+		spherePosition.y -= .15;
+	}
+	if (key == 'z'){
 		drawSprings = !drawSprings;
 	}
-	if (key == 'b'){
+	if (key == 'x'){
 		drawBalls = !drawBalls;
 	}
 	if(key == 'm'){
@@ -1289,22 +1294,22 @@ void keyboard(unsigned char key, int x, int y) {
 		windStrength -= 0.05f;
 		if(windStrength < -1.4f) windStrength = -1.4f;
 	}
-	if (key == '['){
+	if (key == 'f'){
 		cubePosition.x -= .15;
 	}
-	if (key == ']'){
+	if (key == 'h'){
 		cubePosition.x += .15;
 	}
-	if (key == '='){
+	if (key == 't'){
 		cubePosition.y += .15;
 	}
-	if (key == '\''){
+	if (key == 'g'){
 		cubePosition.y -= .15;
 	}
-	if (key == '-'){
+	if (key == 'y'){
 		cubePosition.z += .15;
 	}
-	if (key == '0'){
+	if (key == 'r'){
 		cubePosition.z -= .15;
 	}
 	glutPostRedisplay();
