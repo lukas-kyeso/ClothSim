@@ -1187,7 +1187,7 @@ void Physics(void)
 
 		for(int i = 0; i < clothSize - 1; ++i){
 			for(int j = 0; j < clothSize-1; ++j){
-				//TODO add force to triangles
+
 				VECTOR3D & p0=currentBallsCloth1[i*clothSize+j].position;
 				VECTOR3D & p1=currentBallsCloth1[i*clothSize+j+1].position;
 				VECTOR3D & p2=currentBallsCloth1[(i+1)*clothSize+j].position;
@@ -1198,7 +1198,7 @@ void Physics(void)
 				VECTOR3D & n2=currentBallsCloth1[(i+1)*clothSize+j].normal;
 				VECTOR3D & n3=currentBallsCloth1[(i+1)*clothSize+j+1].normal;
 
-				//Calculate the normals for the 2 triangles and add on
+
 				VECTOR3D normal=(p1-p0).CrossProduct(p2-p0);
 
 				n0+=normal;
@@ -1214,7 +1214,7 @@ void Physics(void)
 		}
 		for(int i = 0; i < cloth2Size - 1; ++i){
 			for(int j = 0; j < cloth2Size-1; ++j){
-				//TODO add force to triangles
+
 				VECTOR3D & p0=currentBallsCloth2[i*cloth2Size+j].position;
 				VECTOR3D & p1=currentBallsCloth2[i*cloth2Size+j+1].position;
 				VECTOR3D & p2=currentBallsCloth2[(i+1)*cloth2Size+j].position;
@@ -1225,7 +1225,7 @@ void Physics(void)
 				VECTOR3D & n2=currentBallsCloth2[(i+1)*cloth2Size+j].normal;
 				VECTOR3D & n3=currentBallsCloth2[(i+1)*cloth2Size+j+1].normal;
 
-				//Calculate the normals for the 2 triangles and add on
+
 				VECTOR3D normal=(p1-p0).CrossProduct(p2-p0);
 
 				n0+=normal;

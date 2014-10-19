@@ -1,17 +1,4 @@
-//////////////////////////////////////////////////////////////////////////////////////////
-//	VECTOR3D.h
-//	Class declaration for a 3d vector
-//	Downloaded from: www.paulsprojects.net
-//	Created:	20th July 2002
-//	Modified:	8th November 2002	-	Changed Constructor layout
-//									-	Some speed Improvements
-//									-	Corrected Lerp
-//				7th January 2003	-	Added QuadraticInterpolate
-//
-//	Copyright (c) 2006, Paul Baker
-//	Distributed under the New BSD Licence. (See accompanying file License.txt or copy at
-//	http://www.paulsprojects.net/NewBSDLicense.txt)
-//////////////////////////////////////////////////////////////////////////////////////////
+
 
 #ifndef VECTOR3D_H
 #define VECTOR3D_H
@@ -66,20 +53,6 @@ public:
 
 	float GetSquaredLength() const
 	{	return (x*x)+(y*y)+(z*z);	}
-
-	//rotations
-	void RotateX(double angle);
-	VECTOR3D GetRotatedX(double angle) const;
-	void RotateY(double angle);
-	VECTOR3D GetRotatedY(double angle) const;
-	void RotateZ(double angle);
-	VECTOR3D GetRotatedZ(double angle) const;
-	void RotateAxis(double angle, const VECTOR3D & axis);
-	VECTOR3D GetRotatedAxis(double angle, const VECTOR3D & axis) const;
-
-	//pack to [0,1] for color
-	void PackTo01();
-	VECTOR3D GetPackedTo01() const;
 
 	//linear interpolate
 	VECTOR3D lerp(const VECTOR3D & v2, float factor) const
